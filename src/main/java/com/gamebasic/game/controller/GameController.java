@@ -35,7 +35,7 @@ public class GameController {
 
     // TODO (Lv 6): 진행과 전체 덱 저장. 주석을 풀고 구현하세요.
      @PutMapping("/games/{gameId}/progress")
-     public ResponseEntity<?> updateProgress(
+     public ResponseEntity<GameDetailResponse> updateProgress(
          @PathVariable Long gameId,
          @Valid @RequestBody ProgressRequest request
      ) {
