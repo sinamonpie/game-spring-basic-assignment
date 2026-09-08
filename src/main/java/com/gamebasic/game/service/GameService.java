@@ -32,7 +32,7 @@ public class GameService {
         List<RunCard> cards = runCardRepository.findAllByGameOrderByIdAsc(game);
         List<CardResponse> deck = new ArrayList<>();
         for (RunCard card : cards) {
-            deck.add(new CardResponse(card.getId(), card.getCardType(), card.getAcquiredFloor()));
+            deck.add(new CardResponse(card));
         }
         return new GameDetailResponse(
             game.getId(),
