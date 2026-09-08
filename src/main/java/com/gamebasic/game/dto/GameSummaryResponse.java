@@ -1,34 +1,33 @@
 package com.gamebasic.game.dto;
 
+import com.gamebasic.game.entity.BaseEntity;
 import com.gamebasic.game.entity.Game;
 import com.gamebasic.game.entity.GamePhase;
 import com.gamebasic.game.entity.GameStatus;
-import com.gamebasic.runcard.dto.CardResponse;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
-public class GameDetailResponse {
+public class GameSummaryResponse {
     private final Long id;
     private final String playerName;
-    private final int currentHp;
-    private final int currentFloor;
+    private final Integer currentFloor;
+    private final Integer currentHp;
     private final GamePhase phase;
     private final GameStatus status;
-    private final List<CardResponse> deck;
+    private final Integer deckSize;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    public GameDetailResponse(Game game, List<CardResponse> deck) {
+    public GameSummaryResponse(Game game, Integer deckSize) {
         this.id = game.getId();
         this.playerName = game.getPlayerName();
-        this.currentHp = game.getCurrentHp();
         this.currentFloor = game.getCurrentFloor();
+        this.currentHp = game.getCurrentHp();
         this.phase = game.getPhase();
         this.status = game.getStatus();
-        this.deck = List.copyOf(deck);
+        this.deckSize = deckSize;
         this.createdAt = game.getCreatedAt();
         this.updatedAt = game.getUpdatedAt();
     }
