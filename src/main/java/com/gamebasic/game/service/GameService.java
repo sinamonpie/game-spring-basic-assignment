@@ -6,6 +6,7 @@ import com.gamebasic.game.dto.*;
 import com.gamebasic.game.entity.Game;
 import com.gamebasic.game.repository.GameRepository;
 import com.gamebasic.runcard.dto.CardResponse;
+import com.gamebasic.runcard.dto.DeckCount;
 import com.gamebasic.runcard.dto.RunCardRequest;
 import com.gamebasic.runcard.entity.RunCard;
 import com.gamebasic.runcard.repository.RunCardRepository;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -76,10 +79,21 @@ public class GameService {
      @Transactional(readOnly = true)
      public List<GameSummaryResponse> getGames() {
         List<Game> games = gameRepository.findAllByOrderByIdDesc();
+        if(games.isEmpty())
+            return List.of();
+
+        List<DeckCount> deckCounts = runCardRepository.countByGames(games);
+
+        Map<Game, Integer> deckCountMap = deckCounts.stream()
+                .collect(Collectors.toMap(
+                          DeckCount::getGame
+                        , DeckCount::getCount
+                ));
+
         List<GameSummaryResponse> gamesResponse = new ArrayList<>();
         for (Game game : games) {
-            List<RunCard> cards = runCardRepository.findAllByGameOrderByIdAsc(game);
-            gamesResponse.add(new GameSummaryResponse(game, cards.size()));
+            int cardSize = deckCountMap.getOrDefault(game, 0);
+            gamesResponse.add(new GameSummaryResponse(game, cardSize));
         }
 
         return gamesResponse;
