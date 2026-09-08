@@ -4,6 +4,7 @@ import com.gamebasic.game.dto.CreateRequest;
 import com.gamebasic.game.dto.GameDetailResponse;
 import com.gamebasic.game.dto.ProgressRequest;
 import com.gamebasic.game.entity.Game;
+import com.gamebasic.game.entity.GameStatus;
 import com.gamebasic.game.repository.GameRepository;
 import com.gamebasic.runcard.dto.CardResponse;
 import com.gamebasic.runcard.dto.RunCardRequest;
@@ -61,6 +62,8 @@ public class GameService {
     @Transactional
     public GameDetailResponse updateProgress(Long gameId, ProgressRequest request) {
         Game game = findGame(gameId);
+        if(game.getStatus() == GameStatus.CLEARED || game.getStatus() == GameStatus.FAILED)
+            throw new IllegalStateException("이미 끝난 게임에는 진행을 저장할 수 없다.");
         game.updateProgress(
             request.getCurrentHp(),
             request.getCurrentFloor(),
