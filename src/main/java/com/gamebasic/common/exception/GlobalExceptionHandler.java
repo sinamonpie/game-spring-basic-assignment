@@ -17,6 +17,29 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class GlobalExceptionHandler {
 
     // TODO (Lv 10): GameNotFoundException(404)과 GameFinishedException(409)을 처리하는 핸들러를 추가하세요.
+    @ExceptionHandler(GameNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleGameNotFoundException(GameNotFoundException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ErrorResponse response = new ErrorResponse(
+                  status
+                , e.getMessage()
+                , request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, status);
+    }
+
+    @ExceptionHandler(GameFinishedException.class)
+    public ResponseEntity<ErrorResponse> handleGameNotFoundException(GameFinishedException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ErrorResponse response = new ErrorResponse(
+                status
+                , e.getMessage()
+                , request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(response, status);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleBodyValidation(
