@@ -53,8 +53,9 @@ public class GameService {
     @Transactional
     public GameDetailResponse updateProgress(Long gameId, ProgressRequest request) {
         Game game = findGame(gameId);
-        if(game.getStatus() == GameStatus.CLEARED || game.getStatus() == GameStatus.FAILED)
-            throw new IllegalStateException("이미 끝난 게임에는 진행을 저장할 수 없다.");
+        if(game.isFinished())
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+
         game.updateProgress(
             request.getCurrentHp(),
             request.getCurrentFloor(),
