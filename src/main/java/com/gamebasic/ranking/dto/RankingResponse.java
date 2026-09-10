@@ -14,7 +14,7 @@ public class RankingResponse {
 
     public RankingResponse(RankingSource source, Integer excludedCount, List<Ranking> entries) {
         this.season = source.getMeta().getSeason().getId();
-        this.totalRecords = source.getMeta().getTotalRecords();
+        this.totalRecords = source.getRecords().size();
         this.excludedCount = excludedCount;
         this.entries = entries;
     }

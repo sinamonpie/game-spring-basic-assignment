@@ -30,8 +30,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(GameFinishedException.class)
-    public ResponseEntity<ErrorResponse> handleGameNotFoundException(GameFinishedException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
+    public ResponseEntity<ErrorResponse> handleGameFinishedException(GameFinishedException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.CONFLICT;
         ErrorResponse response = new ErrorResponse(
                 status
                 , e.getMessage()
