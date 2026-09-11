@@ -113,7 +113,7 @@ public class GameService {
 
     // TODO (Lv 8): 플레이어 이름 변경 — 변경 감지로 수정
     @Transactional
-    public void renameGame(Long gameId, @Valid RenameRequest request) {
+    public void renameGame(Long gameId, RenameRequest request) {
         Game game = findGame(gameId);
         game.rename(request.getPlayerName());
     }

@@ -8,6 +8,6 @@ import lombok.Getter;
 @Getter
 public class RenameRequest {
     @NotBlank
-    @Size(min = 1, max = 12)
+    @Size(min = 2, max = 12)
     private String playerName;
 }
